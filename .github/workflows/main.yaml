@@ -41,3 +41,5 @@ jobs:
         with:
           version: 3.x
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build SDKs
+        run: task build_sdks
