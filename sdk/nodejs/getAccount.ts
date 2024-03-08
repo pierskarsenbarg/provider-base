@@ -11,7 +11,7 @@ export function getAccount(args: GetAccountArgs, opts?: pulumi.InvokeOptions): P
 
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("base:index:getAccount", {
-        "AccountName": args.AccountName,
+        "accountName": args.accountName,
     }, opts);
 }
 
@@ -19,7 +19,7 @@ export interface GetAccountArgs {
     /**
      * Name of the Account
      */
-    AccountName: string;
+    accountName: string;
 }
 
 export interface GetAccountResult {
@@ -47,5 +47,5 @@ export interface GetAccountOutputArgs {
     /**
      * Name of the Account
      */
-    AccountName: pulumi.Input<string>;
+    accountName: pulumi.Input<string>;
 }

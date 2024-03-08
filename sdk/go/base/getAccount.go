@@ -25,7 +25,7 @@ func LookupAccount(ctx *pulumi.Context, args *LookupAccountArgs, opts ...pulumi.
 
 type LookupAccountArgs struct {
 	// Name of the Account
-	AccountName string `pulumi:"AccountName"`
+	AccountName string `pulumi:"accountName"`
 }
 
 type LookupAccountResult struct {
@@ -47,7 +47,7 @@ func LookupAccountOutput(ctx *pulumi.Context, args LookupAccountOutputArgs, opts
 
 type LookupAccountOutputArgs struct {
 	// Name of the Account
-	AccountName pulumix.Input[string] `pulumi:"AccountName"`
+	AccountName pulumix.Input[string] `pulumi:"accountName"`
 }
 
 func (args LookupAccountOutputArgs) ToOutput() pulumix.Output[*LookupAccountArgs] {
