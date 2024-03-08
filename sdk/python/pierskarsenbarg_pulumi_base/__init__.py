@@ -11,10 +11,10 @@ from .provider import *
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
-    import pulumi_base.config as __config
+    import pierskarsenbarg_pulumi_base.config as __config
     config = __config
 else:
-    config = _utilities.lazy_import('pulumi_base.config')
+    config = _utilities.lazy_import('pierskarsenbarg_pulumi_base.config')
 
 _utilities.register(
     resource_modules="""
@@ -22,7 +22,7 @@ _utilities.register(
  {
   "pkg": "base",
   "mod": "index",
-  "fqn": "pulumi_base",
+  "fqn": "pierskarsenbarg_pulumi_base",
   "classes": {
    "base:index:Account": "Account"
   }
@@ -34,7 +34,7 @@ _utilities.register(
  {
   "pkg": "base",
   "token": "pulumi:providers:base",
-  "fqn": "pulumi_base",
+  "fqn": "pierskarsenbarg_pulumi_base",
   "class": "Provider"
  }
 ]

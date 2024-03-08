@@ -18,7 +18,7 @@ def readme():
         return "base Pulumi Package - Development Version"
 
 
-setup(name='pulumi_base',
+setup(name='pierskarsenbarg_pulumi_base',
       python_requires='>=3.8',
       version=VERSION,
       description="base provider template",
@@ -26,14 +26,14 @@ setup(name='pulumi_base',
       long_description_content_type='text/markdown',
       packages=find_packages(),
       package_data={
-          'pulumi_base': [
+          'pierskarsenbarg_pulumi_base': [
               'py.typed',
               'pulumi-plugin.json',
           ]
       },
       install_requires=[
           'parver>=0.2.1',
-          'pulumi',
+          'pulumi>=3.0.0,<4.0.0',
           'semver>=2.8.1'
       ],
       zip_safe=False)

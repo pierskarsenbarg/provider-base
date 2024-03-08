@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
+using Pulumi;
 
-namespace Pulumi.Base
+namespace PiersKarsenbarg.Base
 {
     [BaseResourceType("pulumi:providers:base")]
     public partial class Provider : global::Pulumi.ProviderResource
@@ -42,6 +43,7 @@ namespace Pulumi.Base
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                PluginDownloadURL = "github://api.github.com/pierskarsenbarg/pulumi-base",
                 AdditionalSecretOutputs =
                 {
                     "accessToken",

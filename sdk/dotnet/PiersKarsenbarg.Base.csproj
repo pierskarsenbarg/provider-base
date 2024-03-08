@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Authors>Pulumi Corp.</Authors>
-    <Company>Pulumi Corp.</Company>
+    <Authors>Piers Karsenbarg</Authors>
+    <Company>Piers Karsenbarg</Company>
     <Description>base provider template</Description>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageProjectUrl></PackageProjectUrl>
@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Pulumi" Version="[3.54.1.0,4)" />
+    <PackageReference Include="Pulumi" Version="3.*" />
   </ItemGroup>
 
   <ItemGroup>
