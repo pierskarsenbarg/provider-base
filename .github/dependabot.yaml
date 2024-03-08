@@ -1,0 +1,28 @@
+version: 2
+updates:
+  - package-ecosystem: "gomod"
+    schedule:
+      interval: "weekly"
+      time: "08:00"
+      day: "monday"
+    commit-message:
+      prefix: "provider"
+      include: "scope"
+    directory: "/"
+  - package-ecosystem: "gomod"
+    directory: "/sdk"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "08:00"
+    commit-message:
+      prefix: "sdk"
+      include: "scope"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "08:00"
+    commit-message:
+      prefix: "gha"
+      include: "scope"
