@@ -1,0 +1,31 @@
+name: base
+runtime: yaml
+
+plugins:
+  providers:
+    - name: base
+      path: ../../bin
+resources:
+  provider:
+    type: pulumi:providers:base
+    properties:
+      accessToken: "accessToken123"
+  my-account:
+    type: base:Account
+    properties:
+      name: myaccount
+    options:
+      provider: ${provider}
+variables:
+  account:
+    fn::invoke:
+      function: base:getAccount
+      arguments:
+        accountName: "account name"
+      options:
+        provider: ${provider}
+
+outputs:
+  myoutput: ${account.name}
+  
+  

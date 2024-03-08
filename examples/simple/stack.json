@@ -1,0 +1,78 @@
+{
+    "version": 3,
+    "deployment": {
+        "manifest": {
+            "time": "2024-03-08T21:12:18.648676Z",
+            "magic": "c35983579a1e8ebdd8352e7d1cdc7ec2371d9b52b660983e4274783ee6379cfa",
+            "version": "v3.107.0"
+        },
+        "secrets_providers": {
+            "type": "service",
+            "state": {
+                "url": "https://api.pulumi.com",
+                "owner": "pierskarsenbarg",
+                "project": "base",
+                "stack": "dev"
+            }
+        },
+        "resources": [
+            {
+                "urn": "urn:pulumi:dev::base::pulumi:pulumi:Stack::base-dev",
+                "custom": false,
+                "type": "pulumi:pulumi:Stack",
+                "created": "2024-03-08T21:12:16.550008Z",
+                "modified": "2024-03-08T21:12:16.550008Z"
+            },
+            {
+                "urn": "urn:pulumi:dev::base::pulumi:providers:base::provider",
+                "custom": true,
+                "id": "8bf24efd-0fb4-4707-a7ae-222291c3d26b",
+                "type": "pulumi:providers:base",
+                "inputs": {
+                    "accessToken": {
+                        "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+                        "ciphertext": "AAABAK23tRz+X94AhL+k4YCRoyvhMkLwG0UV+q40uYArTw+he94b/yBt8g=="
+                    },
+                    "environment": ""
+                },
+                "outputs": {
+                    "accessToken": {
+                        "4dabf18193072939515e22adb298388d": "1b47061264138c4ac30d75fd1eb44270",
+                        "ciphertext": "AAABAK23tRz+X94AhL+k4YCRoyvhMkLwG0UV+q40uYArTw+he94b/yBt8g=="
+                    },
+                    "environment": ""
+                },
+                "parent": "urn:pulumi:dev::base::pulumi:pulumi:Stack::base-dev",
+                "propertyDependencies": {
+                    "accessToken": null
+                },
+                "additionalSecretOutputs": [
+                    "accessToken"
+                ],
+                "created": "2024-03-08T21:12:17.845419Z",
+                "modified": "2024-03-08T21:12:17.845419Z"
+            },
+            {
+                "urn": "urn:pulumi:dev::base::base:index:Account::my-account",
+                "custom": true,
+                "id": "my-account",
+                "type": "base:index:Account",
+                "inputs": {
+                    "name": "myaccount"
+                },
+                "outputs": {
+                    "accountId": "12495280-e81a-4fd4-9ae6-254f6265d8a6",
+                    "environment": "dev",
+                    "name": "my-account"
+                },
+                "parent": "urn:pulumi:dev::base::pulumi:pulumi:Stack::base-dev",
+                "provider": "urn:pulumi:dev::base::pulumi:providers:base::provider::8bf24efd-0fb4-4707-a7ae-222291c3d26b",
+                "propertyDependencies": {
+                    "name": null
+                },
+                "created": "2024-03-08T21:12:18.648453Z",
+                "modified": "2024-03-08T21:12:18.648453Z"
+            }
+        ]
+    }
+}

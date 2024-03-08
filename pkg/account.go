@@ -96,7 +96,7 @@ func (*Account) Update(ctx p.Context, id string, olds AccountState, news Account
 type GetAccount struct{}
 
 type GetAccountArgs struct {
-	AccountName string `pulumi:"AccountName"`
+	AccountName string `pulumi:"accountName"`
 }
 
 func (ga *GetAccount) Annotate(a infer.Annotator) {
