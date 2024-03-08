@@ -1,0 +1,59 @@
+name: main
+"on":
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - CHANGELOG.md
+    tags-ignore:
+      - v*
+      - sdk/*
+      - "**"
+jobs:
+  build_sdks:
+    name: Build SDKs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: Unshallow clone for tags
+        run: git fetch --prune --unshallow --tags
+      - name: Install Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{matrix.goversion}}
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{matrix.nodeversion}}
+      - name: Setup DotNet
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{matrix.dotnetversion}}
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{matrix.pythonversion}}
+      - name: Install Pulumi CLI
+        uses: pulumi/actions@v4
+      - name: Install Task
+        uses: arduino/setup-task@v1
+        with:
+          version: 3.x
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+    strategy:
+      fail-fast: true
+      matrix:
+        dotnetversion:
+          - 6.0.302
+        goversion:
+          - 1.21.x
+        language:
+          - nodejs
+          - python
+          - dotnet
+          - go
+        nodeversion:
+          - 20.x
+        pythonversion:
+          - "3.11"
