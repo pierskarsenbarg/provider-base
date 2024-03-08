@@ -1,0 +1,1 @@
+base provider template

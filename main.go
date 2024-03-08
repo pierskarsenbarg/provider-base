@@ -9,7 +9,7 @@ import (
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
 	gen "github.com/pulumi/pulumi/pkg/v3/codegen/go"
-	"github.com/pulumi/pulumi/sdk/go/common/tokens"
+	"github.com/pulumi/pulumi/sdk/v3/go/common/tokens"
 )
 
 func main() {
@@ -23,8 +23,8 @@ func main() {
 func provider() p.Provider {
 	return infer.Provider(infer.Options{
 		Metadata: schema.Metadata{
-			DisplayName: "gitpod",
-			Description: "Gitpod provider",
+			DisplayName: "base",
+			Description: "base provider template",
 			LanguageMap: map[string]any{
 				"go": gen.GoPackageInfo{
 					Generics:       gen.GenericsSettingGenericsOnly,

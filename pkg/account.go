@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"github.com/Azure/azure-sdk-for-go/sdk/internal/uuid"
 	"github.com/google/uuid"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
@@ -23,7 +22,7 @@ func (acc *AccountArgs) Annotate(a infer.Annotator) {
 }
 
 type AccountState struct {
-	Id          string `pulumi:"org_id"`
+	Id          string `pulumi:"accountId"`
 	Name        string `pulumi:"name"`
 	Environment string `pulumi:"environment"`
 }
@@ -39,7 +38,7 @@ func (*Account) Create(ctx p.Context, name string, input AccountArgs, preview bo
 	if !preview {
 		config := infer.GetConfig[Config](ctx)
 		environment := config.Environment
-		accountId := uuid.New()
+		accountId := uuid.New().String()
 
 		return name, AccountState{
 			Id:          accountId,
@@ -111,7 +110,7 @@ func (ga *GetAccountArgs) Annotate(a infer.Annotator) {
 func (GetAccount) Call(ctx p.Context, args GetAccountArgs) (AccountState, error) {
 	config := infer.GetConfig[Config](ctx)
 	return AccountState{
-		Id:          uuid.New(),
+		Id:          uuid.New().String(),
 		Name:        args.AccountName,
 		Environment: config.Environment,
 	}, nil

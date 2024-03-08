@@ -20,6 +20,7 @@ tasks:
       # - cd tests && go mod tidy
   build_provider:
     cmds:
+      - go mod tidy
       - go build -o bin/{{.PROVIDER}} -ldflags "-X {{.PROJECT}}/{{.VERSION_PATH}}={{.VERSION}}"
   get_schema:
     deps: [build_provider]
