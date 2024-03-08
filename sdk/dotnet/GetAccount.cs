@@ -31,7 +31,7 @@ namespace PiersKarsenbarg.Base
         /// <summary>
         /// Name of the Account
         /// </summary>
-        [Input("AccountName", required: true)]
+        [Input("accountName", required: true)]
         public string AccountName { get; set; } = null!;
 
         public GetAccountArgs()
@@ -45,7 +45,7 @@ namespace PiersKarsenbarg.Base
         /// <summary>
         /// Name of the Account
         /// </summary>
-        [Input("AccountName", required: true)]
+        [Input("accountName", required: true)]
         public Input<string> AccountName { get; set; } = null!;
 
         public GetAccountInvokeArgs()

@@ -74,7 +74,7 @@ def get_account(account_name: Optional[str] = None,
     :param str account_name: Name of the Account
     """
     __args__ = dict()
-    __args__['AccountName'] = account_name
+    __args__['accountName'] = account_name
     opts = pulumi.InvokeOptions.merge(_utilities.get_invoke_opts_defaults(), opts)
     __ret__ = pulumi.runtime.invoke('base:index:getAccount', __args__, opts=opts, typ=GetAccountResult).value
 
