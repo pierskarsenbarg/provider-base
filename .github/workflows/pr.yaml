@@ -34,3 +34,9 @@ jobs:
         with:
           version: 3.x
           repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install pulumictl
+        uses: jaxxstorm/action-install-gh-release@v1.10.0
+        with:
+          repo: pulumi/pulumictl
+      - name: build sdk
+        run: task build_sdks
