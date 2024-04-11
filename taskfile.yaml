@@ -69,7 +69,8 @@ tasks:
           rm ./bin/setup.py.bak && \
           cd ./bin && python3 setup.py build sdist
     vars:
-      PYTHON_VERSION: pulumictl get version --language python
+      PYTHON_VERSION: 
+        sh: pulumictl get version --language python
   build_sdks:
     deps: [build_provider]
     cmds:
