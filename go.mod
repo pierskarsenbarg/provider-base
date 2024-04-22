@@ -6,7 +6,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/pulumi/pulumi-go-provider v0.15.0
 	github.com/pulumi/pulumi/pkg/v3 v3.112.0
-	github.com/pulumi/pulumi/sdk/v3 v3.112.0
+	github.com/pulumi/pulumi/sdk/v3 v3.113.3
 )
 
 require (
