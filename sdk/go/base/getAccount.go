@@ -9,7 +9,6 @@ import (
 
 	"github.com/pierskarsenbarg/provider-base/sdk/go/base/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // GetOrganization gets the Organization information
@@ -38,26 +37,25 @@ type LookupAccountResult struct {
 }
 
 func LookupAccountOutput(ctx *pulumi.Context, args LookupAccountOutputArgs, opts ...pulumi.InvokeOption) LookupAccountResultOutput {
-	outputResult := pulumix.ApplyErr[*LookupAccountArgs](args.ToOutput(), func(plainArgs *LookupAccountArgs) (*LookupAccountResult, error) {
-		return LookupAccount(ctx, plainArgs, opts...)
-	})
-
-	return pulumix.Cast[LookupAccountResultOutput, *LookupAccountResult](outputResult)
+	return pulumi.ToOutputWithContext(context.Background(), args).
+		ApplyT(func(v interface{}) (LookupAccountResult, error) {
+			args := v.(LookupAccountArgs)
+			r, err := LookupAccount(ctx, &args, opts...)
+			var s LookupAccountResult
+			if r != nil {
+				s = *r
+			}
+			return s, err
+		}).(LookupAccountResultOutput)
 }
 
 type LookupAccountOutputArgs struct {
 	// Name of the Account
-	AccountName pulumix.Input[string] `pulumi:"accountName"`
+	AccountName pulumi.StringInput `pulumi:"accountName"`
 }
 
-func (args LookupAccountOutputArgs) ToOutput() pulumix.Output[*LookupAccountArgs] {
-	allArgs := pulumix.All(
-		args.AccountName.ToOutput(context.Background()).AsAny())
-	return pulumix.Apply[[]any](allArgs, func(resolvedArgs []interface{}) *LookupAccountArgs {
-		return &LookupAccountArgs{
-			AccountName: resolvedArgs[0].(string),
-		}
-	})
+func (LookupAccountOutputArgs) ElementType() reflect.Type {
+	return reflect.TypeOf((*LookupAccountArgs)(nil)).Elem()
 }
 
 type LookupAccountResultOutput struct{ *pulumi.OutputState }
@@ -66,20 +64,29 @@ func (LookupAccountResultOutput) ElementType() reflect.Type {
 	return reflect.TypeOf((*LookupAccountResult)(nil)).Elem()
 }
 
-func (o LookupAccountResultOutput) ToOutput(context.Context) pulumix.Output[*LookupAccountResult] {
-	return pulumix.Output[*LookupAccountResult]{
-		OutputState: o.OutputState,
-	}
+func (o LookupAccountResultOutput) ToLookupAccountResultOutput() LookupAccountResultOutput {
+	return o
 }
 
-func (o LookupAccountResultOutput) AccountId() pulumix.Output[string] {
-	return pulumix.Apply[*LookupAccountResult](o, func(v *LookupAccountResult) string { return v.AccountId })
+func (o LookupAccountResultOutput) ToLookupAccountResultOutputWithContext(ctx context.Context) LookupAccountResultOutput {
+	return o
 }
 
-func (o LookupAccountResultOutput) Environment() pulumix.Output[string] {
-	return pulumix.Apply[*LookupAccountResult](o, func(v *LookupAccountResult) string { return v.Environment })
+// Id of account created
+func (o LookupAccountResultOutput) AccountId() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupAccountResult) string { return v.AccountId }).(pulumi.StringOutput)
 }
 
-func (o LookupAccountResultOutput) Name() pulumix.Output[string] {
-	return pulumix.Apply[*LookupAccountResult](o, func(v *LookupAccountResult) string { return v.Name })
+// Environment of account
+func (o LookupAccountResultOutput) Environment() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupAccountResult) string { return v.Environment }).(pulumi.StringOutput)
+}
+
+// Name of account created
+func (o LookupAccountResultOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v LookupAccountResult) string { return v.Name }).(pulumi.StringOutput)
+}
+
+func init() {
+	pulumi.RegisterOutputType(LookupAccountResultOutput{})
 }

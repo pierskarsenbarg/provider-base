@@ -1,7 +1,8 @@
 package pkg
 
 import (
-	p "github.com/pulumi/pulumi-go-provider"
+	"context"
+
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
 
@@ -19,7 +20,7 @@ func (c *Config) Annotate(a infer.Annotator) {
 
 var _ = (infer.CustomConfigure)((*Config)(nil))
 
-func (c *Config) Configure(ctx p.Context) error {
+func (c *Config) Configure(ctx context.Context) error {
 
 	if len(c.Environment) == 0 {
 		c.Environment = "dev"

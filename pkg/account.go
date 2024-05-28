@@ -1,6 +1,8 @@
 package pkg
 
 import (
+	"context"
+
 	"github.com/google/uuid"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
@@ -33,7 +35,7 @@ func (acc *AccountState) Annotate(a infer.Annotator) {
 	a.Describe(&acc.Environment, "Environment of account")
 }
 
-func (*Account) Create(ctx p.Context, name string, input AccountArgs, preview bool) (
+func (*Account) Create(ctx context.Context, name string, input AccountArgs, preview bool) (
 	id string, output AccountState, err error) {
 	if !preview {
 		config := infer.GetConfig[Config](ctx)
@@ -49,11 +51,11 @@ func (*Account) Create(ctx p.Context, name string, input AccountArgs, preview bo
 	return "", AccountState{}, nil
 }
 
-func (*Account) Delete(ctx p.Context, id string, props AccountState) error {
+func (*Account) Delete(ctx context.Context, id string, props AccountState) error {
 	return nil
 }
 
-func (*Account) Read(ctx p.Context, id string, inputs AccountArgs, state AccountState) (
+func (*Account) Read(ctx context.Context, id string, inputs AccountArgs, state AccountState) (
 	string, AccountArgs, AccountState, error) {
 	return inputs.Name, AccountArgs{
 			Name: state.Name,
@@ -64,7 +66,7 @@ func (*Account) Read(ctx p.Context, id string, inputs AccountArgs, state Account
 		}, nil
 }
 
-func (*Account) Diff(ctx p.Context, id string, olds AccountState, news AccountArgs) (p.DiffResponse, error) {
+func (*Account) Diff(ctx context.Context, id string, olds AccountState, news AccountArgs) (p.DiffResponse, error) {
 	diff := map[string]p.PropertyDiff{}
 
 	if olds.Name != news.Name {
@@ -78,7 +80,7 @@ func (*Account) Diff(ctx p.Context, id string, olds AccountState, news AccountAr
 	}, nil
 }
 
-func (*Account) Update(ctx p.Context, id string, olds AccountState, news AccountArgs, preview bool) (AccountState, error) {
+func (*Account) Update(ctx context.Context, id string, olds AccountState, news AccountArgs, preview bool) (AccountState, error) {
 	var accountName string
 	if !preview {
 		if olds.Name != news.Name {
@@ -107,7 +109,7 @@ func (ga *GetAccountArgs) Annotate(a infer.Annotator) {
 	a.Describe(&ga.AccountName, "Name of the Account")
 }
 
-func (GetAccount) Call(ctx p.Context, args GetAccountArgs) (AccountState, error) {
+func (GetAccount) Call(ctx context.Context, args GetAccountArgs) (AccountState, error) {
 	config := infer.GetConfig[Config](ctx)
 	return AccountState{
 		Id:          uuid.New().String(),

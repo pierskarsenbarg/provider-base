@@ -10,16 +10,15 @@ import (
 	"errors"
 	"github.com/pierskarsenbarg/provider-base/sdk/go/base/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 type Provider struct {
 	pulumi.ProviderResourceState
 
 	// Your access token
-	AccessToken pulumix.Output[string] `pulumi:"accessToken"`
+	AccessToken pulumi.StringOutput `pulumi:"accessToken"`
 	// Environment
-	Environment pulumix.Output[*string] `pulumi:"environment"`
+	Environment pulumi.StringPtrOutput `pulumi:"environment"`
 }
 
 // NewProvider registers a new resource with the given unique name, arguments, and options.
@@ -33,8 +32,7 @@ func NewProvider(ctx *pulumi.Context,
 		return nil, errors.New("invalid value for required argument 'AccessToken'")
 	}
 	if args.AccessToken != nil {
-		untypedSecretValue := pulumi.ToSecret(args.AccessToken.ToOutput(ctx.Context()).Untyped())
-		args.AccessToken = pulumix.MustConvertTyped[string](untypedSecretValue)
+		args.AccessToken = pulumi.ToSecret(args.AccessToken).(pulumi.StringInput)
 	}
 	secrets := pulumi.AdditionalSecretOutputs([]string{
 		"accessToken",
@@ -59,19 +57,38 @@ type providerArgs struct {
 // The set of arguments for constructing a Provider resource.
 type ProviderArgs struct {
 	// Your access token
-	AccessToken pulumix.Input[string]
+	AccessToken pulumi.StringInput
 	// Environment
-	Environment pulumix.Input[*string]
+	Environment pulumi.StringPtrInput
 }
 
 func (ProviderArgs) ElementType() reflect.Type {
 	return reflect.TypeOf((*providerArgs)(nil)).Elem()
 }
 
+type ProviderInput interface {
+	pulumi.Input
+
+	ToProviderOutput() ProviderOutput
+	ToProviderOutputWithContext(ctx context.Context) ProviderOutput
+}
+
+func (*Provider) ElementType() reflect.Type {
+	return reflect.TypeOf((**Provider)(nil)).Elem()
+}
+
+func (i *Provider) ToProviderOutput() ProviderOutput {
+	return i.ToProviderOutputWithContext(context.Background())
+}
+
+func (i *Provider) ToProviderOutputWithContext(ctx context.Context) ProviderOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(ProviderOutput)
+}
+
 type ProviderOutput struct{ *pulumi.OutputState }
 
 func (ProviderOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*Provider)(nil)).Elem()
+	return reflect.TypeOf((**Provider)(nil)).Elem()
 }
 
 func (o ProviderOutput) ToProviderOutput() ProviderOutput {
@@ -82,24 +99,17 @@ func (o ProviderOutput) ToProviderOutputWithContext(ctx context.Context) Provide
 	return o
 }
 
-func (o ProviderOutput) ToOutput(ctx context.Context) pulumix.Output[Provider] {
-	return pulumix.Output[Provider]{
-		OutputState: o.OutputState,
-	}
-}
-
 // Your access token
-func (o ProviderOutput) AccessToken() pulumix.Output[string] {
-	value := pulumix.Apply[Provider](o, func(v Provider) pulumix.Output[string] { return v.AccessToken })
-	return pulumix.Flatten[string, pulumix.Output[string]](value)
+func (o ProviderOutput) AccessToken() pulumi.StringOutput {
+	return o.ApplyT(func(v *Provider) pulumi.StringOutput { return v.AccessToken }).(pulumi.StringOutput)
 }
 
 // Environment
-func (o ProviderOutput) Environment() pulumix.Output[*string] {
-	value := pulumix.Apply[Provider](o, func(v Provider) pulumix.Output[*string] { return v.Environment })
-	return pulumix.Flatten[*string, pulumix.Output[*string]](value)
+func (o ProviderOutput) Environment() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.Environment }).(pulumi.StringPtrOutput)
 }
 
 func init() {
+	pulumi.RegisterInputType(reflect.TypeOf((*ProviderInput)(nil)).Elem(), &Provider{})
 	pulumi.RegisterOutputType(ProviderOutput{})
 }

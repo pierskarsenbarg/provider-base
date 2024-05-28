@@ -9,6 +9,12 @@ updates:
       prefix: "provider"
       include: "scope"
     directory: "/"
+    groups:
+      modules:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: "gomod"
     directory: "/sdk"
     schedule:
@@ -18,6 +24,12 @@ updates:
     commit-message:
       prefix: "sdk"
       include: "scope"
+    groups:
+      modules:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -26,3 +38,9 @@ updates:
     commit-message:
       prefix: "gha"
       include: "scope"
+    groups:
+      modules:
+        applies-to: version-updates
+        update-types:
+          - minor
+          - patch

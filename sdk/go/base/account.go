@@ -9,7 +9,6 @@ import (
 
 	"github.com/pierskarsenbarg/provider-base/sdk/go/base/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 // Account to define
@@ -17,11 +16,11 @@ type Account struct {
 	pulumi.CustomResourceState
 
 	// Id of account created
-	AccountId pulumix.Output[string] `pulumi:"accountId"`
+	AccountId pulumi.StringOutput `pulumi:"accountId"`
 	// Environment of account
-	Environment pulumix.Output[string] `pulumi:"environment"`
+	Environment pulumi.StringOutput `pulumi:"environment"`
 	// Name of account created
-	Name pulumix.Output[string] `pulumi:"name"`
+	Name pulumi.StringOutput `pulumi:"name"`
 }
 
 // NewAccount registers a new resource with the given unique name, arguments, and options.
@@ -71,17 +70,36 @@ type accountArgs struct {
 // The set of arguments for constructing a Account resource.
 type AccountArgs struct {
 	// Name of account
-	Name pulumix.Input[*string]
+	Name pulumi.StringPtrInput
 }
 
 func (AccountArgs) ElementType() reflect.Type {
 	return reflect.TypeOf((*accountArgs)(nil)).Elem()
 }
 
+type AccountInput interface {
+	pulumi.Input
+
+	ToAccountOutput() AccountOutput
+	ToAccountOutputWithContext(ctx context.Context) AccountOutput
+}
+
+func (*Account) ElementType() reflect.Type {
+	return reflect.TypeOf((**Account)(nil)).Elem()
+}
+
+func (i *Account) ToAccountOutput() AccountOutput {
+	return i.ToAccountOutputWithContext(context.Background())
+}
+
+func (i *Account) ToAccountOutputWithContext(ctx context.Context) AccountOutput {
+	return pulumi.ToOutputWithContext(ctx, i).(AccountOutput)
+}
+
 type AccountOutput struct{ *pulumi.OutputState }
 
 func (AccountOutput) ElementType() reflect.Type {
-	return reflect.TypeOf((*Account)(nil)).Elem()
+	return reflect.TypeOf((**Account)(nil)).Elem()
 }
 
 func (o AccountOutput) ToAccountOutput() AccountOutput {
@@ -92,30 +110,22 @@ func (o AccountOutput) ToAccountOutputWithContext(ctx context.Context) AccountOu
 	return o
 }
 
-func (o AccountOutput) ToOutput(ctx context.Context) pulumix.Output[Account] {
-	return pulumix.Output[Account]{
-		OutputState: o.OutputState,
-	}
-}
-
 // Id of account created
-func (o AccountOutput) AccountId() pulumix.Output[string] {
-	value := pulumix.Apply[Account](o, func(v Account) pulumix.Output[string] { return v.AccountId })
-	return pulumix.Flatten[string, pulumix.Output[string]](value)
+func (o AccountOutput) AccountId() pulumi.StringOutput {
+	return o.ApplyT(func(v *Account) pulumi.StringOutput { return v.AccountId }).(pulumi.StringOutput)
 }
 
 // Environment of account
-func (o AccountOutput) Environment() pulumix.Output[string] {
-	value := pulumix.Apply[Account](o, func(v Account) pulumix.Output[string] { return v.Environment })
-	return pulumix.Flatten[string, pulumix.Output[string]](value)
+func (o AccountOutput) Environment() pulumi.StringOutput {
+	return o.ApplyT(func(v *Account) pulumi.StringOutput { return v.Environment }).(pulumi.StringOutput)
 }
 
 // Name of account created
-func (o AccountOutput) Name() pulumix.Output[string] {
-	value := pulumix.Apply[Account](o, func(v Account) pulumix.Output[string] { return v.Name })
-	return pulumix.Flatten[string, pulumix.Output[string]](value)
+func (o AccountOutput) Name() pulumi.StringOutput {
+	return o.ApplyT(func(v *Account) pulumi.StringOutput { return v.Name }).(pulumi.StringOutput)
 }
 
 func init() {
+	pulumi.RegisterInputType(reflect.TypeOf((*AccountInput)(nil)).Elem(), &Account{})
 	pulumi.RegisterOutputType(AccountOutput{})
 }

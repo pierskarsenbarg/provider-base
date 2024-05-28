@@ -30,7 +30,6 @@ func provider() p.Provider {
 			Description: "base provider template",
 			LanguageMap: map[string]any{
 				"go": gogen.GoPackageInfo{
-					Generics:       gogen.GenericsSettingGenericsOnly,
 					ImportBasePath: "github.com/pierskarsenbarg/provider-base/sdk/go/base",
 				},
 				"nodejs": nodejsgen.NodePackageInfo{
