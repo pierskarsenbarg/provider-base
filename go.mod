@@ -4,9 +4,9 @@ go 1.21.5
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/pulumi/pulumi-go-provider v0.20.0
-	github.com/pulumi/pulumi/pkg/v3 v3.125.0
-	github.com/pulumi/pulumi/sdk/v3 v3.125.0
+	github.com/pulumi/pulumi-go-provider v0.21.0
+	github.com/pulumi/pulumi/pkg/v3 v3.126.0
+	github.com/pulumi/pulumi/sdk/v3 v3.126.0
 )
 
 require (
