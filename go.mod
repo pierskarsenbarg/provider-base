@@ -6,9 +6,9 @@ toolchain go1.22.5
 
 require (
 	github.com/google/uuid v1.6.0
-	github.com/pulumi/pulumi-go-provider v0.22.1-0.20240910163342-78792a49e94d
-	github.com/pulumi/pulumi/pkg/v3 v3.132.0
-	github.com/pulumi/pulumi/sdk/v3 v3.132.0
+	github.com/pulumi/pulumi-go-provider v0.23.0
+	github.com/pulumi/pulumi/pkg/v3 v3.134.0
+	github.com/pulumi/pulumi/sdk/v3 v3.134.0
 )
 
 require (
@@ -129,7 +129,7 @@ require (
 	github.com/pkg/term v1.1.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/pulumi/appdash v0.0.0-20231130102222-75f619a67231 // indirect
-	github.com/pulumi/esc v0.9.2-0.20240910221656-328d3204100f // indirect
+	github.com/pulumi/esc v0.10.0 // indirect
 	github.com/pulumi/inflector v0.1.1 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect
 	github.com/rogpeppe/go-internal v1.12.0 // indirect
