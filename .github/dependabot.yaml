@@ -1,6 +1,8 @@
 version: 2
 updates:
   - package-ecosystem: "gomod"
+    assignees:
+      - pierskarsenbarg
     schedule:
       interval: "weekly"
       time: "08:00"
@@ -16,6 +18,8 @@ updates:
           - minor
           - patch
   - package-ecosystem: "gomod"
+    assignees: 
+      - pierskarsenbarg
     directory: "/sdk"
     schedule:
       interval: "weekly"
@@ -31,6 +35,8 @@ updates:
           - minor
           - patch
   - package-ecosystem: "github-actions"
+    assignees:
+      - pierskarsenbarg
     directory: "/"
     schedule:
       interval: "daily"
