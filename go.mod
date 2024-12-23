@@ -7,8 +7,8 @@ toolchain go1.22.5
 require (
 	github.com/google/uuid v1.6.0
 	github.com/pulumi/pulumi-go-provider v0.24.0
-	github.com/pulumi/pulumi/pkg/v3 v3.143.0
-	github.com/pulumi/pulumi/sdk/v3 v3.143.0
+	github.com/pulumi/pulumi/pkg/v3 v3.144.1
+	github.com/pulumi/pulumi/sdk/v3 v3.144.1
 )
 
 require (
@@ -91,7 +91,7 @@ require (
 	golang.org/x/crypto v0.31.0 // indirect
 	golang.org/x/exp v0.0.0-20240604190554-fc45aab8b7f8 // indirect
 	golang.org/x/mod v0.18.0 // indirect
-	golang.org/x/net v0.28.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/term v0.27.0 // indirect
