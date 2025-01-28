@@ -1,10 +1,11 @@
 module github.com/pierskarsenbarg/provider-base/sdk
 
 go 1.21.5
+toolchain go1.22.5
 
 require (
 	github.com/blang/semver v3.5.1+incompatible
-	github.com/pulumi/pulumi/sdk/v3 v3.146.0
+	github.com/pulumi/pulumi/sdk/v3 v3.147.0
 )
 
 require (
