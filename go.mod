@@ -1,11 +1,13 @@
 module github.com/pierskarsenbarg/provider-base
 
 go 1.22
+toolchain go1.24.1
+
 require (
 	github.com/google/uuid v1.6.0
 	github.com/pulumi/pulumi-go-provider v0.25.0
-	github.com/pulumi/pulumi/pkg/v3 v3.158.0
-	github.com/pulumi/pulumi/sdk/v3 v3.158.0
+	github.com/pulumi/pulumi/pkg/v3 v3.160.0
+	github.com/pulumi/pulumi/sdk/v3 v3.160.0
 )
 
 require (
