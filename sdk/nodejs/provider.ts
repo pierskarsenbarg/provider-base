@@ -22,11 +22,11 @@ export class Provider extends pulumi.ProviderResource {
     /**
      * Your access token
      */
-    public readonly accessToken!: pulumi.Output<string>;
+    declare public readonly accessToken: pulumi.Output<string>;
     /**
      * Environment
      */
-    public readonly environment!: pulumi.Output<string | undefined>;
+    declare public readonly environment: pulumi.Output<string | undefined>;
 
     /**
      * Create a Provider resource with the given unique name, arguments, and options.
@@ -39,11 +39,11 @@ export class Provider extends pulumi.ProviderResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         {
-            if ((!args || args.accessToken === undefined) && !opts.urn) {
+            if (args?.accessToken === undefined && !opts.urn) {
                 throw new Error("Missing required property 'accessToken'");
             }
             resourceInputs["accessToken"] = args?.accessToken ? pulumi.secret(args.accessToken) : undefined;
-            resourceInputs["environment"] = args ? args.environment : undefined;
+            resourceInputs["environment"] = args?.environment;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         const secretOpts = { additionalSecretOutputs: ["accessToken"] };
@@ -63,5 +63,5 @@ export interface ProviderArgs {
     /**
      * Environment
      */
-    environment?: pulumi.Input<string>;
+    environment?: pulumi.Input<string | undefined>;
 }

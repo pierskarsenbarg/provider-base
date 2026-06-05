@@ -37,15 +37,15 @@ export class Account extends pulumi.CustomResource {
     /**
      * Id of account created
      */
-    public /*out*/ readonly accountId!: pulumi.Output<string>;
+    declare public /*out*/ readonly accountId: pulumi.Output<string>;
     /**
      * Environment of account
      */
-    public /*out*/ readonly environment!: pulumi.Output<string>;
+    declare public /*out*/ readonly environment: pulumi.Output<string>;
     /**
      * Name of account created
      */
-    public readonly name!: pulumi.Output<string>;
+    declare public readonly name: pulumi.Output<string>;
 
     /**
      * Create a Account resource with the given unique name, arguments, and options.
@@ -58,7 +58,7 @@ export class Account extends pulumi.CustomResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
-            resourceInputs["name"] = args ? args.name : undefined;
+            resourceInputs["name"] = args?.name;
             resourceInputs["accountId"] = undefined /*out*/;
             resourceInputs["environment"] = undefined /*out*/;
         } else {
@@ -78,5 +78,5 @@ export interface AccountArgs {
     /**
      * Name of account
      */
-    name?: pulumi.Input<string>;
+    name?: pulumi.Input<string | undefined>;
 }

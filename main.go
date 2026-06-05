@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -8,7 +9,6 @@ import (
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
-	dotnetgen "github.com/pulumi/pulumi/pkg/v3/codegen/dotnet"
 	gogen "github.com/pulumi/pulumi/pkg/v3/codegen/go"
 	nodejsgen "github.com/pulumi/pulumi/pkg/v3/codegen/nodejs"
 	pythongen "github.com/pulumi/pulumi/pkg/v3/codegen/python"
@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	err := p.RunProvider("base", "0.1.0", provider())
+	err := p.RunProvider(context.Background(), "base", "0.1.0", provider())
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error: %s", err.Error())
 		os.Exit(1)
@@ -38,13 +38,13 @@ func provider() p.Provider {
 						"@pulumi/pulumi": "^3.0.0",
 					},
 					DevDependencies: map[string]string{
-						"@types/node": "^10.0.0", // so we can access strongly typed node definitions.
+						"@types/node": "^10.0.0",
 						"@types/mime": "^2.0.0",
 					},
 				},
-				"csharp": dotnetgen.CSharpPackageInfo{
-					RootNamespace: "PiersKarsenbarg",
-					PackageReferences: map[string]string{
+				"csharp": map[string]any{
+					"rootNamespace": "PiersKarsenbarg",
+					"packageReferences": map[string]string{
 						"Pulumi": "3.*",
 					},
 				},
@@ -59,14 +59,14 @@ func provider() p.Provider {
 			Publisher:         "Piers Karsenbarg",
 		},
 		Resources: []infer.InferredResource{
-			infer.Resource[*pkg.Account, pkg.AccountArgs, pkg.AccountState](),
+			infer.Resource[*pkg.Account, pkg.AccountArgs, pkg.AccountState](&pkg.Account{}),
 		},
 		ModuleMap: map[tokens.ModuleName]tokens.ModuleName{
-			"pkg": "index", // required because the folder with everything in is "pkg"
+			"pkg": "index",
 		},
 		Functions: []infer.InferredFunction{
-			infer.Function[*pkg.GetAccount, pkg.GetAccountArgs, pkg.AccountState](),
+			infer.Function[*pkg.GetAccount, pkg.GetAccountArgs, pkg.AccountState](&pkg.GetAccount{}),
 		},
-		Config: infer.Config[*pkg.Config](),
+		Config: infer.Config[*pkg.Config](&pkg.Config{}),
 	})
 }

@@ -35,41 +35,37 @@ func (acc *AccountState) Annotate(a infer.Annotator) {
 	a.Describe(&acc.Environment, "Environment of account")
 }
 
-func (*Account) Create(ctx context.Context, name string, input AccountArgs, preview bool) (
-	id string, output AccountState, err error) {
-	if !preview {
-		config := infer.GetConfig[Config](ctx)
-		environment := config.Environment
-		accountId := uuid.New().String()
-
-		return name, AccountState{
-			Id:          accountId,
-			Name:        name,
-			Environment: environment,
-		}, nil
+func (*Account) Create(ctx context.Context, req infer.CreateRequest[AccountArgs]) (infer.CreateResponse[AccountState], error) {
+	if req.DryRun {
+		return infer.CreateResponse[AccountState]{}, nil
 	}
-	return "", AccountState{}, nil
+	config := infer.GetConfig[Config](ctx)
+	return infer.CreateResponse[AccountState]{
+		ID: req.Name,
+		Output: AccountState{
+			Id:          uuid.New().String(),
+			Name:        req.Name,
+			Environment: config.Environment,
+		},
+	}, nil
 }
 
-func (*Account) Delete(ctx context.Context, id string, props AccountState) error {
-	return nil
+func (*Account) Delete(ctx context.Context, req infer.DeleteRequest[AccountState]) (infer.DeleteResponse, error) {
+	return infer.DeleteResponse{}, nil
 }
 
-func (*Account) Read(ctx context.Context, id string, inputs AccountArgs, state AccountState) (
-	string, AccountArgs, AccountState, error) {
-	return inputs.Name, AccountArgs{
-			Name: state.Name,
-		}, AccountState{
-			Id:          state.Id,
-			Name:        state.Name,
-			Environment: state.Environment,
-		}, nil
+func (*Account) Read(ctx context.Context, req infer.ReadRequest[AccountArgs, AccountState]) (infer.ReadResponse[AccountArgs, AccountState], error) {
+	return infer.ReadResponse[AccountArgs, AccountState]{
+		ID:     req.Inputs.Name,
+		Inputs: AccountArgs{Name: req.State.Name},
+		State:  req.State,
+	}, nil
 }
 
-func (*Account) Diff(ctx context.Context, id string, olds AccountState, news AccountArgs) (p.DiffResponse, error) {
+func (*Account) Diff(ctx context.Context, req infer.DiffRequest[AccountArgs, AccountState]) (p.DiffResponse, error) {
 	diff := map[string]p.PropertyDiff{}
 
-	if olds.Name != news.Name {
+	if req.State.Name != req.Inputs.Name {
 		diff["name"] = p.PropertyDiff{Kind: p.Update}
 	}
 
@@ -80,18 +76,19 @@ func (*Account) Diff(ctx context.Context, id string, olds AccountState, news Acc
 	}, nil
 }
 
-func (*Account) Update(ctx context.Context, id string, olds AccountState, news AccountArgs, preview bool) (AccountState, error) {
-	var accountName string
-	if !preview {
-		if olds.Name != news.Name {
-			accountName = news.Name
-		} else {
-			accountName = olds.Name
-		}
+func (*Account) Update(ctx context.Context, req infer.UpdateRequest[AccountArgs, AccountState]) (infer.UpdateResponse[AccountState], error) {
+	if req.DryRun {
+		return infer.UpdateResponse[AccountState]{}, nil
 	}
-	return AccountState{
-		Id:   olds.Id,
-		Name: accountName,
+	name := req.State.Name
+	if req.State.Name != req.Inputs.Name {
+		name = req.Inputs.Name
+	}
+	return infer.UpdateResponse[AccountState]{
+		Output: AccountState{
+			Id:   req.State.Id,
+			Name: name,
+		},
 	}, nil
 }
 
@@ -109,11 +106,13 @@ func (ga *GetAccountArgs) Annotate(a infer.Annotator) {
 	a.Describe(&ga.AccountName, "Name of the Account")
 }
 
-func (GetAccount) Call(ctx context.Context, args GetAccountArgs) (AccountState, error) {
+func (*GetAccount) Invoke(ctx context.Context, req infer.FunctionRequest[GetAccountArgs]) (infer.FunctionResponse[AccountState], error) {
 	config := infer.GetConfig[Config](ctx)
-	return AccountState{
-		Id:          uuid.New().String(),
-		Name:        args.AccountName,
-		Environment: config.Environment,
+	return infer.FunctionResponse[AccountState]{
+		Output: AccountState{
+			Id:          uuid.New().String(),
+			Name:        req.Input.AccountName,
+			Environment: config.Environment,
+		},
 	}, nil
 }
