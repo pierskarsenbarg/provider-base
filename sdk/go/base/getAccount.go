@@ -37,15 +37,11 @@ type LookupAccountResult struct {
 }
 
 func LookupAccountOutput(ctx *pulumi.Context, args LookupAccountOutputArgs, opts ...pulumi.InvokeOption) LookupAccountResultOutput {
-	return pulumi.ToOutputWithContext(context.Background(), args).
-		ApplyT(func(v interface{}) (LookupAccountResult, error) {
+	return pulumi.ToOutputWithContext(ctx.Context(), args).
+		ApplyT(func(v interface{}) (LookupAccountResultOutput, error) {
 			args := v.(LookupAccountArgs)
-			r, err := LookupAccount(ctx, &args, opts...)
-			var s LookupAccountResult
-			if r != nil {
-				s = *r
-			}
-			return s, err
+			options := pulumi.InvokeOutputOptions{InvokeOptions: internal.PkgInvokeDefaultOpts(opts)}
+			return ctx.InvokeOutput("base:index:getAccount", args, LookupAccountResultOutput{}, options).(LookupAccountResultOutput), nil
 		}).(LookupAccountResultOutput)
 }
 
